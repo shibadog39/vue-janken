@@ -1,4 +1,5 @@
 # vue-janken
+vueマスターへの第一歩
 
 ## Project setup
 ```
