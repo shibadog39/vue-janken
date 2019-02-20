@@ -24,20 +24,17 @@
   </div>
 </template>
 <script>
-//import * as babel from "babel-core";
-// import Storage from "../util/Storage";
-// let storage = new Storage();
 
 export default {
   name: "game",
   props: ["scores"],
   data() {
     return {
-      src: require("../assets/logo.png"),
+      src: require("../assets/janken_choki.png"),
       imgList: [
-        require("../assets/logo.png"),
-        require("../assets/shiba.png"),
-        require("../assets/chawanmushi.png")
+        require("../assets/janken_gu.png"),
+        require("../assets/janken_choki.png"),
+        require("../assets/janken_pa.png")
       ],
       timer: null,
       resultMessage: ""
@@ -60,7 +57,7 @@ export default {
       this.reset();
       this.timer = setInterval(() => {
         this.changeImg();
-      }, 1000 / 100);
+      }, 1000 / 12);
     },
     onSelected(e) {
       clearInterval(this.timer);
