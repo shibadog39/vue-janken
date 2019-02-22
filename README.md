@@ -1,6 +1,9 @@
 # vue-janken
 vueマスターへの第一歩
 
+参考にしたページ
+https://www.actzero.jp/developer/report-19774.html
+
 ## Project setup
 ```
 npm install
