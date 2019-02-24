@@ -4,11 +4,15 @@
       <div>links</div>
     </div>
     <div class="main">
-      <div>{{resultMsg}}</div>
-      <div>button
-        <button v-for="option in options" @click="handleSelect" :value="option.id" :key="option.id">{{option.name}}</button>
+      <div>
+        <button @click="fightAgain" v-bind:disabled="!finishSelection">もう一度！</button>
+        <hr>
+        <div>{{resultMsg}}</div>
+        <button class="hands" v-bind:class="{'selected-btn': option.id==selectedId}" v-for="option in options" @click="handleSelect" :value="option.id" :key="option.id" v-bind:disabled="finishSelection">{{option.name}}</button>
       </div>
-      <div>gazou</div>
+      <div>
+        <img :src="randomHand.img" alt="hand img" width="100" height="100">
+      </div>
     </div>
   </div>
 </template>
@@ -21,17 +25,23 @@ export default {
   name: "fight",
   data() {
     return {
-      resultMsg: "sakurai",
-      options: hands.OPTIONS
+      resultMsg: "いざじんじょうに！",
+      selectedId: 0,
+      finishSelection: false,
+      options: hands.OPTIONS,
+      randomHand: hands.getByRandom(),
+      intervalId: null
     };
+  },
+  created: function() {
+    this.startFight();
   },
   methods: {
     handleSelect: function(e){
-      let selectedHand = hands.getById(e.target.value);
-      console.log("おれ:" + selectedHand.name);
-      let ramdomHand = hands.getByRandom();
-      console.log("あいて:" + ramdomHand.name);
-      this.judgeResult(selectedHand.id, ramdomHand.id);
+      clearInterval(this.intervalId);
+      this.selectedId = e.target.value
+      this.finishSelection = true
+      this.judgeResult(this.selectedId, this.randomHand.id);
       },
     judgeResult: function(user, cp){
       //https://qiita.com/mpyw/items/3ffaac0f1b4a7713c869
@@ -47,10 +57,25 @@ export default {
           this.resultMsg = "君のかち"
           break;
       }
-    }  
+    },
+    startFight: function() {
+      this.intervalId = setInterval(this.displayImg,1000/10);
+    },
+    fightAgain: function(){
+      this.selectedId = 0
+      this.finishSelection = false
+      this.resultMsg = "いざじんじょうに！"
+      this.startFight();
+    },
+    displayImg: function() {
+      this.randomHand = hands.getByRandom();
+    }
   }
 };
 </script>
 
 <style scoped>
+.selected-btn {
+  border: 2px solid black;
+}
 </style>

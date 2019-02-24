@@ -2,9 +2,9 @@ export default class Hands {
 
   get OPTIONS(){
     return [
-      { "id": '1', "name": 'グー' },
-      { "id": '2', "name": 'チョキ' },
-      { "id": '3', "name": 'パー' }
+      { "id": '1', "name": 'グー', "img": require("../assets/janken_gu.png") },
+      { "id": '2', "name": 'チョキ', "img": require("../assets/janken_choki.png") },
+      { "id": '3', "name": 'パー', "img": require("../assets/janken_pa.png") }
     ];
   }
 
