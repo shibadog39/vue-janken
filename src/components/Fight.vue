@@ -11,11 +11,6 @@
         <img :src="randomHand.img" alt="hand img" width="100" height="100">
       </div>
     </div>
-    <div class="score">
-      <ul>
-        <li v-for="(item, index) in scores" :key="index">{{item}}</li>
-      </ul>
-    </div>
   </div>
 </template>
 
