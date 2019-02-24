@@ -1,8 +1,5 @@
 <template>
   <div id="fight">
-    <div class="header">
-      <div>links</div>
-    </div>
     <div class="main">
       <div>
         <button @click="fightAgain" v-bind:disabled="!finishSelection">もう一度！</button>
@@ -14,12 +11,20 @@
         <img :src="randomHand.img" alt="hand img" width="100" height="100">
       </div>
     </div>
+    <div class="score">
+      <ul>
+        <li v-for="(item, index) in scores" :key="index">{{item}}</li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 import Hands from '../util/Hands'
+import Storage from "../util/Storage";
+
 let hands = new Hands();
+let storage = new Storage();
 
 export default {
   name: "fight",
@@ -30,10 +35,12 @@ export default {
       finishSelection: false,
       options: hands.OPTIONS,
       randomHand: hands.getByRandom(),
-      intervalId: null
+      intervalId: null,
+      scores: []
     };
   },
   created: function() {
+    this.scores = storage.getData("scores") || []
     this.startFight();
   },
   methods: {
@@ -42,6 +49,7 @@ export default {
       this.selectedId = e.target.value
       this.finishSelection = true
       this.judgeResult(this.selectedId, this.randomHand.id);
+      this.saveScore();
       },
     judgeResult: function(user, cp){
       //https://qiita.com/mpyw/items/3ffaac0f1b4a7713c869
@@ -57,6 +65,10 @@ export default {
           this.resultMsg = "君のかち"
           break;
       }
+    },
+    saveScore: function(){
+      this.scores.push(this.scores.length + 1 + "回戦: " + this.resultMsg);
+      storage.setData("scores", this.scores);
     },
     startFight: function() {
       this.intervalId = setInterval(this.displayImg,1000/10);
