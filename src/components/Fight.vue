@@ -21,11 +21,8 @@
 
 <script>
 import Hands from '../util/Hands'
-import Storage from "../util/Storage";
 
 let hands = new Hands();
-let storage = new Storage();
-
 export default {
   name: "fight",
   data() {
@@ -35,13 +32,14 @@ export default {
       finishSelection: false,
       options: hands.OPTIONS,
       randomHand: hands.getByRandom(),
-      intervalId: null,
-      scores: []
+      intervalId: null
     };
   },
   created: function() {
-    this.scores = storage.getData("scores") || []
     this.startFight();
+  },
+  computed: {
+    scores() { return this.$store.getters.scores}
   },
   methods: {
     handleSelect: function(e){
@@ -68,7 +66,7 @@ export default {
     },
     saveScore: function(){
       this.scores.push(this.scores.length + 1 + "回戦: " + this.resultMsg);
-      storage.setData("scores", this.scores);
+      this.$store.commit('updateScores', this.scores)
     },
     startFight: function() {
       this.intervalId = setInterval(this.displayImg,1000/10);

@@ -2,7 +2,6 @@
   <div id="app">
     <div>links</div>
     <Fight/>
-    <Score/>
   </div>
 </template>
 
